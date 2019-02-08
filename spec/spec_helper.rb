@@ -1,4 +1,5 @@
 require "bundler/setup"
+Bundler.setup
 require "webface_rails"
 
 RSpec.configure do |config|

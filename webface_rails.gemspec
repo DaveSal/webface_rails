@@ -17,4 +17,11 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["app/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   spec.add_dependency "rails", "~> 5.2.2"
+
+  spec.test_files = Dir["spec/**/*"]
+
+  spec.add_development_dependency "colorize"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+
 end
