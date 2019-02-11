@@ -1,0 +1,9 @@
+= component_block :hint, "div",
+{ class: 'helpHint', property_attr: "anchor,show_events,force_show_events,autoshow_delay,autohide_delay,display_limit,keep_open_when_hover,hint_id", roles: attrs.delete(:roles),
+data: data_attrs_and_values!(:attrs, binding, [:anchor,:show_events,:force_show_events,:autoshow_delay,:autohide_delay,:display_limit,:keep_open_when_hover,:hint_id]) } do
+
+  .arrowUp
+  .content
+    = image_tag "close_hint.svg", class: "close", data: { component_part: "close" }
+    = capture(&block)
+  .arrowDown

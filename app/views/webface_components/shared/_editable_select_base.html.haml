@@ -1,0 +1,34 @@
+- if options[:label]
+  %label
+    = options[:label]
+    - unless options[:popup_hint].blank?
+      = component :hint_trigger, i18n: options[:popup_hint]
+
+.selectBoxAndOptions
+
+  = component_part :selectbox, "div", class: "selectBox" do
+    = property "display_value", "input",
+      type: 'text',
+      class: 'editableSelect',
+      placeholder: t("views.start_typing"),
+      autocomplete: "off",
+      maxlength: attrs.delete(:maxlength),
+      value: (select_component_get_selected_value(options, :display) if select_component_get_selected_value(options).blank?),
+      data: { component_attribute_properties: 'display_value:value', component_part: "display_input" }
+    = image_tag "ajax_indicators/rolling_dark.svg", class: 'ajaxIndicator'
+    = component_part :arrow, "span" do
+      = image_tag "arrow_down.svg", class: "arrow"
+    = property "input_value", "input", type: 'hidden', name: options[:name], value: get_value_for_field_name(options), data: { component_part: "input", component_attribute_properties: 'input_value:value' }
+
+  = component_part :options_container, "div", class: "optionsContainer" do
+    - prepare_select_collection(options[:collection] || [], selected: options[:selected] || params[options[:name]], blank_option: false).each do |k,v|
+      = component_part :option, "div", class: "option", data: { option_value: k } do
+        = v
+
+    .noOptionsFoundMessage
+      %p.main= t("views.components.editable_select.no_matching_items")
+      - if options[:allow_custom_value]
+        %p.customValue= t("views.components.editable_select.you_can_leave_typed")
+
+= component_part :option_template, "div", class: "option"
+= render partial: "components/field_hints", locals: { options: options }

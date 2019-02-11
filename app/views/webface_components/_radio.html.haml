@@ -1,0 +1,18 @@
+= component_block :radio_button, "div",
+  class: (attrs.delete(:class) || "") + " radio #{"errors" if options[:model] && !get_error_for_field_name(options).blank? }",
+  property_attr: "disabled,value",
+  roles: attrs.delete(:roles),
+  data: { max_length: attrs.delete(:max_length), disabled: options[:disabled], value: get_value_for_field_name(options) }.merge(attrs) do
+
+  .container
+    - prepare_select_collection(options[:collection] || get_value_for_field_name(options)).each do |k,v|
+      .item
+        - if options[:selected] == k
+          %input{ type: "radio", name: options[:name], id: "radio_#{options[:radio_options_id]}_#{k}", disabled: options[:disabled], value: k, checked: "checked", data: { component_part: 'option', component_attribute_properties: "name:name" }}
+        - else
+          %input{ type: "radio", name: options[:name], id: "radio_#{options[:radio_options_id]}_#{k}", disabled: options[:disabled], value: k, data: { component_part: 'option', component_attribute_properties: "name:name" }}
+        %label{ for: "radio_#{options[:radio_options_id]}_#{k}" }
+          = v
+        - unless options[:popup_hint].blank?
+          = component :hint_trigger, i18n: options[:popup_hint].delete_at(0)
+  = render partial: "components/field_hints", locals: { options: options }

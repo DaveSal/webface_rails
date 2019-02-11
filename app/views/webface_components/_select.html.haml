@@ -1,0 +1,34 @@
+= component_block (attrs[:roles] == "timezone_selector" ? "timezone_select" : "select"), :div,
+  class: (attrs.delete(:class) || "") + " field selectComponent#{" errors" if options[:model] && !get_error_for_field_name(options).blank?}",
+  tabindex: options[:tabindex] || 1,
+  property_attr: 'disabled,name,fetch_url,separators_below,top_values',
+  roles: attrs.delete(:roles),
+  data: { disabled: attrs.delete(:disabled) ? 'disabled' : nil, fetch_url: options[:fetch_url], name: options[:name], separators_below: options[:separators_below], top_values: options[:top_values] } do
+
+  - if options[:label]
+    %label
+      = options[:label]
+      - unless options[:popup_hint].blank?
+        = component :hint_trigger, i18n: options[:popup_hint]
+
+  = property "input_value", "input",
+    type: 'hidden',
+    data: { component_attribute_properties: 'input_value:value' },
+    name: options[:name], value: get_value_for_field_name(options) || select_component_get_selected_value(options, type=:input)
+
+  .selectBoxAndOptions
+
+    = component_part :selectbox, "div", class: "selectBox" do
+      = property "display_value", "div", class: "value" do
+        = (select_component_get_selected_value(options, :display) if select_component_get_selected_value(options).blank?)
+      = image_tag "arrow_down.svg", class: "arrow"
+      = image_tag "ajax_indicators/rolling_dark.svg", class: 'ajaxIndicator'
+
+    = component_part :options_container, "div", class: "optionsContainer" do
+      - options[:has_blank] = true if options[:has_blank].nil?
+      - prepare_select_collection(options[:collection], selected: options[:selected] || params[options[:name]], blank_option: options[:has_blank]).each do |k,v|
+        = component_part :option, "div", class: "option", data: { option_value: k } do
+          = v
+
+  = component_part :option_template, "div", class: "option"
+  = render partial: "components/field_hints", locals: { options: options }

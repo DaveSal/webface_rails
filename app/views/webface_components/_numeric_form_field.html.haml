@@ -1,0 +1,13 @@
+= component_block :numeric_form_field, "div",
+  { class: (attrs.delete(:class) || "") + " field numeric#{" errors" if options[:model] && !get_error_for_field_name(options).blank?}", property_attr: "max_length", data: { max_length: attrs.delete(:max_length) }}.merge(attrs) do
+  
+  - if options[:label]
+    %label
+      = options[:label]
+      - unless options[:popup_hint].blank?
+        = component :hint_trigger, i18n: options[:popup_hint]
+
+  .fieldAndHint
+    %input{ type: "text", tabindex: options[:tabindex], name: options[:name], value: get_value_for_field_name(options), maxlength: attrs.delete(:maxlength), data: { component_part: 'value_holder', component_attribute_properties: "name:name,disabled:disabled"}}
+    = options[:suffix]
+    = render partial: "components/field_hints", locals: { options: options }

@@ -1,0 +1,8 @@
+= component_block :editable_select, "div",
+  class: (attrs.delete(:class) || "") + " field editableSelectComponent#{" errors" if options[:model] && options[:name] && !get_error_for_field_name(options).blank?}",
+  tabindex: options[:tabindex] || 1,
+  property_attr: 'disabled,name,fetch_url,allow_custom_value,query_param_name',
+  roles: attrs.delete(:roles),
+  data: { disabled: (attrs.delete(:disabled) ? "disabled" : nil), fetch_url: options[:fetch_url], allow_custom_value: options[:allow_custom_value], query_param_name: options[:query_param_name] } do
+
+  = render partial: "components/shared/editable_select_base", locals: { options: options, attrs: attrs }

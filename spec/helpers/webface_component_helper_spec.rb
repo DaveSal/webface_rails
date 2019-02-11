@@ -4,7 +4,7 @@ require 'active_support/all'
 # Dummy class
 class Offer;end
 
-RSpec.describe WebfaceRails::ComponentHelper do
+RSpec.describe WebfaceComponentHelper do
 
   before(:each) do
     @model                 = double("model")
@@ -16,7 +16,7 @@ RSpec.describe WebfaceRails::ComponentHelper do
     @options = { name: "model[association1][association2][][field_name]", field_counter: 5, model_name: "model", nested_field: [[:association1, :has_one], [:association2, :has_many]], attr_name: "field_name", model: @model }
   end
 
-  include WebfaceRails::ComponentHelper
+  include WebfaceComponentHelper
 
   # This is a dummy method so we don't need to import I18n from rails
   def t(key)

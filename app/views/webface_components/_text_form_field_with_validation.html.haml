@@ -1,0 +1,6 @@
+= component_block :form_field_with_validation, "div",
+  { class: (attrs.delete(:class) || "") + " field text#{" errors" if options[:model] && !get_error_for_field_name(options).blank?}", property_attr: "disabled,label", data: { disabled: options[:disabled], label: options[:label] } }.merge(attrs) do
+
+  %input{ type: (attrs.delete(:type) || "text"), tabindex: attrs[:tabindex], name: options[:name], value: attrs[:value] || get_value_for_field_name(options), autofocus: options[:autofocus], disabled: options[:disabled], maxlength: attrs.delete(:maxlength), autocomplete: attrs.delete(:autocomplete), data: { component_part: 'value_holder', component_attribute_properties: "name:name" } }
+  = options[:suffix]
+  = render partial: "components/field_hints", locals: { options: options }

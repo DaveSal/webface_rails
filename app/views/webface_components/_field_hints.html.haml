@@ -1,0 +1,7 @@
+.hintsContainer
+  .errorHint
+    = property :validation_errors_summary, "div", class: "validationErrors", style: ("display: block;" unless get_error_for_field_name(options).blank?) do
+      - if options[:model] && options[:attr_name] && errors = get_error_for_field_name(options)
+        = errors.join("; ")
+  .hint
+    = options[:hint]

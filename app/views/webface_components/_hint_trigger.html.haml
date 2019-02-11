@@ -1,0 +1,15 @@
+= image_tag "hint_trigger.svg", class: "hintTrigger", id: (id = "hint_#{attrs.delete(:id)}_#{attrs[:i18n].to_s.sha512_hash(Rails.application.class.parent_name.to_s, 15)}")
+
+- attrs.merge!({anchor: id, show_events: "mouseover", force_show_events: "click,touchend", autohide_delay: 10, roles: "hint", display_limit: 1, hint_id: id})
+
+= component :hint, attrs do
+  - if attrs.has_key?(:ma_term)
+    = MultiAsset.t("hints.#{attrs[:ma_term]}")
+  - elsif attrs.has_key?(:title)
+    = attrs[:title]
+  - else
+    = I18n.t("hints.#{attrs[:i18n]}")
+
+- attrs.delete(:ma_term)
+- attrs.delete(:title)
+- attrs.delete(:i18n)

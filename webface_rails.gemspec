@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://webfacejs.org"
   spec.license       = "MIT"
 
-  spec.files = Dir["app/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  spec.files = Dir["app/**/*", "lib/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   spec.add_dependency "rails", "~> 5.2.2"
 
   spec.test_files = Dir["spec/**/*"]

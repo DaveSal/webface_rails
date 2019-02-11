@@ -1,0 +1,19 @@
+%div.checkboxContainer
+  = hidden_field_tag options[:name], 0
+  = component_block :checkbox, "input",
+    name: options[:name],
+    id: options[:name],
+    type: "checkbox",
+    class: "#{attrs.delete(:class)} checkbox",
+    roles: attrs.delete(:roles),
+    tabindex: options[:tabindex] || 1,
+    property_attr: "name,disabled,checked",
+    data: { disabled: attrs[:disabled], checked: attrs[:checked], component_attribute_properties: "name:name,disabled:disabled,checked:checked" },
+    checked: attrs[:checked],
+    disabled: attrs[:disabled]
+
+  %label{ for: options[:name] }
+    = options[:label]
+  - unless options[:popup_hint].blank?
+    = component :hint_trigger, i18n: options[:popup_hint]
+  = render partial: "components/field_hints", locals: { options: options }

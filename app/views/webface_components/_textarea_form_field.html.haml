@@ -1,0 +1,11 @@
+= component_block :form_field, "div",
+  { class: (attrs.delete(:class) || "") + " field textarea#{" errors" if options[:model] && !get_error_for_field_name(options).blank?}", property_attr: "disabled"}.merge(attrs) do
+  
+  - if options[:label]
+    %label
+      = options[:label]
+      - unless options[:popup_hint].blank?
+        = component :hint_trigger, i18n: options[:popup_hint]
+
+  %textarea{ name: options[:name], maxlength: attrs.delete(:maxlength), tabindex: options[:tabindex], data: { component_part: 'value_holder', component_attribute_properties: "name:name" }}= get_value_for_field_name(options)
+  = render partial: "components/field_hints", locals: { options: options }
