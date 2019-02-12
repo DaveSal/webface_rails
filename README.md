@@ -14,7 +14,7 @@ run webface tests. To be more specific, it will do the following
 2. Create webface unit test dir under `spec/webface`
 3. Copy there a bunch of files necessary to run unit tests
 4. Add `node_modules` dirs to .gitignore
-5. Symlink your `app/assets/javascripts` into `spec/webface/source` and `app/assets/javascripts` into ``spec/webface/webface_source`. This is necessary to properly import the files you're testing.
+5. Symlink your `app/assets/javascripts` into `spec/webface/source` and `app/assets/javascripts` into `spec/webface/webface_source`. This is necessary to properly import the files you're testing.
 6. Install node_modules in `app/assets/javascripts`. If it doesn't have a `package.json` file, it will copy the one used by webface.
 7. Symlink `app/assets/javascripts/node_modules` to `spec/webface/node_modules`
 8. And finally, symlink the `app/assets/javascripts/webface.js` (or whatever the path is) into `spec/webface/webface_source`
