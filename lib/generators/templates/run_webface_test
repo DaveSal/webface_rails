@@ -1,6 +1,11 @@
 #!/bin/bash
+DIRECTORY=$(cd `dirname $0` && pwd)
+cd $DIRECTORY
+ls
+echo $DIRECTORY
 node test_server.js &
 server_pid=$!
 echo Server id is $server_pid
 npm test -- -f http://localhost:8080?file=$1
 kill $server_pid
+cd -

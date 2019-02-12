@@ -6,7 +6,7 @@ class WebfaceGenerator < Rails::Generators::Base
     # We'll later change this to fetching webface.js as a node_module, but not now.
     gitmodules = File.readlines("#{Rails.root}/.gitmodules")
     unless gitmodules.join("\n").include?("webface.js.git")
-      `git submodule add git@gitlab.com:hodl/webface.js.git`
+      `cd #{Rails.root}/app/assets/javascripts/ && git submodule add git@gitlab.com:hodl/webface.js.git `
     end
     gitmodules.each do |line|
       if line.include?("webface") && line.include?("path =")
@@ -22,8 +22,9 @@ class WebfaceGenerator < Rails::Generators::Base
   end
 
   def copy_unit_test_server
-    copy_file "webface_test_server.js", "spec/webface/test_server"
+    copy_file "webface_test_server.js", "spec/webface/test_server.js"
     copy_file "run_webface_test", "spec/webface/run_test"
+    `chmod +x #{Rails.root}/spec/webface/run_test`
     copy_file "mocha.css", "spec/webface/mocha.css"
     copy_file "mocha.pug", "spec/webface/mocha.pug"
     copy_file "test_utils.js", "spec/webface/test_utils.js"
@@ -57,6 +58,8 @@ class WebfaceGenerator < Rails::Generators::Base
     else
       puts "   File to be copied already exists ".colorize(:light_blue) + files
     end
+    `ln -s #{Rails.root}/app/assets/javascripts/package.json #{Rails.root}/spec/webface/`
+    `ln -s #{Rails.root}/app/assets/javascripts/package-lock.json #{Rails.root}/spec/webface/`
   end
 
   def install_node_modules
