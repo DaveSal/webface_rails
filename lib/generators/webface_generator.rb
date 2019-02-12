@@ -34,9 +34,6 @@ class WebfaceGenerator < Rails::Generators::Base
     copy_file "my_component.test.js", "spec/webface/components/my_component.test.js"
 
     copy_file "application.js", "app/assets/javascripts/application.js"
-    puts "----------------"
-    puts @webface_path
-    puts "----------------"
     gsub_file "app/assets/javascripts/application.js", "path_to_webface.js", @webface_path.sub(/\A.*app\/assets\/javascripts\//, "") + "/lib/webface.js"
   end
 
@@ -45,57 +42,33 @@ class WebfaceGenerator < Rails::Generators::Base
     `echo "app/assets/javascripts/node_modules" >> #{Rails.root}/.gitignore` unless File.read("#{Rails.root}/.gitignore").include?("app/assets/javascripts/node_modules")
   end
 
-  def symlink_javascripts_dir
-    # Create symlink to the app/assets/javascripts dir
-    files = "#{Rails.root}/app/assets/javascripts #{Rails.root}/spec/webface/source"
-    unless File.exists?("#{Rails.root}/spec/webface/source")
-      puts "   Symlinking ".colorize(:green) + files
-      `ln -s #{files}`
-    else
-      puts "   Symlink already exists ".colorize(:light_blue) + files
-    end
+  def copy_package_json
+    copy_file "#{Rails.root}/#{@webface_path}/package.json", "app/assets/javascripts/package.json"
+    copy_file "#{Rails.root}/#{@webface_path}/package-lock.json", "app/assets/javascripts/package-lock.json"
   end
 
-  def copy_package_json
-    files = "#{Rails.root}/#{@webface_path}/package.json #{Rails.root}/app/assets/javascripts/"
-    unless File.exists?("#{Rails.root}/app/assets/javascripts/package.json")
-      puts "   Copying ".colorize(:green) + files
-      `cp #{files}`.colorize(:green)
-    else
-      puts "   File to be copied already exists ".colorize(:light_blue) + files
-    end
-    `ln -s #{Rails.root}/app/assets/javascripts/package.json #{Rails.root}/spec/webface/`
-    `ln -s #{Rails.root}/app/assets/javascripts/package-lock.json #{Rails.root}/spec/webface/`
+  def create_symlinks
+    create_symlink("#{Rails.root}/app/assets/javascripts", "#{Rails.root}/spec/webface/source")
+    create_symlink("#{Rails.root}/app/assets/javascripts/node_modules", "#{Rails.root}/spec/webface/")
+    create_symlink("#{Rails.root}/#{@webface_path}", "#{Rails.root}/spec/webface/webface_source")
+    create_symlink "#{Rails.root}/app/assets/javascripts/package.json", "#{Rails.root}/spec/webface/"
+    create_symlink "#{Rails.root}/app/assets/javascripts/package-lock.json", "#{Rails.root}/spec/webface/"
   end
 
   def install_node_modules
     puts `cd #{Rails.root}/app/assets/javascripts && npm i`
   end
 
-  def symlink_node_modules_dir_for_unit_tests
-    files = "#{Rails.root}/app/assets/javascripts/node_modules #{Rails.root}/spec/webface/"
-    unless File.exists?("#{Rails.root}/spec/webface/node_modules")
-      puts "   Symlinking ".colorize(:green) + files
-      `ln -s #{files}`
-    else
-      puts "   Symlink already exists ".colorize(:light_blue) + files
-    end
-  end
-
-  def symlink_webface_dir
-    files = "#{Rails.root}/#{@webface_path}/lib #{Rails.root}/spec/webface/webface_source"
-    unless File.exists?("#{Rails.root}/spec/webface/webface_source")
-      puts "   Symlinking ".colorize(:green) + files
-      `ln -s #{files}`
-    else
-      puts "   Symlink already exists ".colorize(:light_blue) + files
-    end
-  end
-
   private
 
-    def create_symlink
-
+    def create_symlink(from, to)
+      files = "#{to} #{from}"
+      unless File.exists?(to)
+        puts "   Symlinking ".colorize(:green) + from + " -> " + to
+        `ln -s #{files}`
+      else
+        puts "   Symlink already exists ".colorize(:light_blue) + to
+      end
     end
 
 
