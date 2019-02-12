@@ -1,0 +1,6 @@
+.modalWindow{ data: { component_template: "DialogWindowComponent", component_attribute_properties: "close_on_escape,close_on_background_click,show_close_button" }}
+  .modal{ aria: { hidden: "true" } }
+    .modalDialog
+      = image_tag "close_modal_window.svg", class: "close", data: { component_part: "close" }
+      .content{ data: { component_part: "content"} }
+      .buttonContainer{ data: { component_part: "button_container"}}

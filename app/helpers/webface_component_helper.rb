@@ -61,10 +61,10 @@ module WebfaceComponentHelper
     data_hash
   end
 
-  def template(name, tag_name="div", attrs={}, &block)
+  def component_template(name, tag_name="div", attrs={}, &block)
     attrs[:data] ||= {}
     attrs[:data][:component_template] = "#{name.to_s.camelize}Component"
-    component_block("", tag_name, attrs, &block)
+    component_block(nil, tag_name, attrs, &block)
   end
 
   def prepare_select_collection(c, selected: nil, blank_option: false)
