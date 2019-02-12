@@ -6,7 +6,7 @@ class WebfaceGenerator < Rails::Generators::Base
     # We'll later change this to fetching webface.js as a node_module, but not now.
     gitmodules = File.readlines("#{Rails.root}/.gitmodules")
     unless gitmodules.join("\n").include?("webface.js.git")
-      `cd #{Rails.root}/app/assets/javascripts/ && git submodule add git@gitlab.com:hodl/webface.js.git `
+      `cd #{Rails.root}/app/assets/javascripts/ && git submodule add git@gitlab.com:hodl/webface.js.git`
     end
     gitmodules.each do |line|
       if line.include?("webface") && line.include?("path =")
@@ -32,6 +32,12 @@ class WebfaceGenerator < Rails::Generators::Base
     copy_file "webface_init.js", "spec/webface/webface_init.js"
     copy_file "test_animator.js", "spec/webface/test_animator.js"
     copy_file "my_component.test.js", "spec/webface/components/my_component.test.js"
+
+    copy_file "application.js", "app/assets/javascripts/application.js"
+    puts "----------------"
+    puts @webface_path
+    puts "----------------"
+    gsub_file "app/assets/javascripts/application.js", "path_to_webface.js", @webface_path.sub(/\A.*app\/assets\/javascripts\//, "") + "/lib/webface.js"
   end
 
   def add_node_modules_to_gitignore
@@ -85,6 +91,12 @@ class WebfaceGenerator < Rails::Generators::Base
       puts "   Symlink already exists ".colorize(:light_blue) + files
     end
   end
+
+  private
+
+    def create_symlink
+
+    end
 
 
 end
