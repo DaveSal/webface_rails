@@ -34,7 +34,7 @@ class WebfaceGenerator < Rails::Generators::Base
     copy_file "my_component.test.js", "spec/webface/components/my_component.test.js"
 
     copy_file "application.js", "app/assets/javascripts/application.js"
-    gsub_file "app/assets/javascripts/application.js", "path_to_webface.js", @webface_path.sub(/\A.*app\/assets\/javascripts\//, "") + "/lib/webface.js"
+    gsub_file "app/assets/javascripts/application.js", "path_to_webface", @webface_path.sub(/\A.*app\/assets\/javascripts\//, "") + "/lib"
   end
 
   def add_node_modules_to_gitignore
