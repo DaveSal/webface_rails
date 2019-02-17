@@ -3,10 +3,10 @@ require 'spec_helper'
 # Dummy class
 class Offer;end
 
-RSpec.describe WebfaceFormComponent do
+RSpec.describe WebfaceForm do
 
   before(:each) do
-    @component_form = WebfaceFormComponent.new(Offer.new, nil)
+    @component_form = WebfaceForm.new(Offer.new, nil)
   end
 
   it "modifies field name for nested has_one association" do

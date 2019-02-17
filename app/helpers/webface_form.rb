@@ -1,4 +1,4 @@
-class WebfaceFormComponent
+class WebfaceForm
 
   OPTION_ATTRS = [:tabindex, :label, :suffix, :selected, :hint, :collection, :allow_custom_value, :fetch_url, :query_param_name, :disabled, :nested_field, :serialized_hash, :model_field_name, :model_name, :radio_options_id, :popup_hint, :has_blank]
 

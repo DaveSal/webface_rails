@@ -58,7 +58,7 @@ module WebfaceComponentHelper
 
     auth_token_field = content_tag(:input, "", value: form_authenticity_token, type: "hidden", name: "authenticity_token")
 
-    f = WebfaceFormComponent.new(model, self)
+    f = WebfaceForm.new(model, self)
     content = capture(f, &block)
     content_tag(:form, { action: action, method: 'POST', "accept-charset" => "UTF-8", "enctype" => "multipart/form-data" }.merge(attrs)) do
       concat content
