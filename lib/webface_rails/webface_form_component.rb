@@ -48,6 +48,11 @@ class WebfaceFormComponent
     options.merge!({ name: field_name, attr_name: args.first, model: @model, model_name: self.model_name})
     attrs.delete_if { |k,v| OPTION_ATTRS.include?(k) }
     attrs.merge!({ options: options })
+
+    if attrs[:options][:label].nil?
+      attrs[:options][:label] = I18n.t("models.#{field_name_for_i18n(field_name)}")
+    end
+
     self.send("_#{field_type}", attrs)
   end
 
@@ -145,6 +150,10 @@ class WebfaceFormComponent
       field_names       = name.scan(/\[.*?\]/)
       actual_field_name = field_names.pop
       "#{model_name}#{field_names.join("")}[#{nested_has_many_name}_attributes][]#{actual_field_name}"
+    end
+
+    def field_name_for_i18n(fn)
+      fn = fn.split("[").map { |n| n.sub("]", "") }.join(".")
     end
 
 end

@@ -46,6 +46,27 @@ module WebfaceComponentHelper
     end
   end
 
+  def component_form(model, action=nil, attrs={}, &block)
+
+    if model.new_record?
+      action = send("#{model.class.to_s.underscore.pluralize}_path") unless action
+      method_field = ""
+    else
+      action = send("#{model.class.to_s.underscore}_path", model.to_param) unless action
+      method_field = content_tag(:input, "", type: "hidden", name: "_method", value: "PATCH")
+    end
+
+    auth_token_field = content_tag(:input, "", value: form_authenticity_token, type: "hidden", name: "authenticity_token")
+
+    f = WebfaceFormComponent.new(model, self)
+    content = capture(f, &block)
+    content_tag(:form, { action: action, method: 'POST', "accept-charset" => "UTF-8", "enctype" => "multipart/form-data" }.merge(attrs)) do
+      concat content
+      concat method_field
+      concat auth_token_field
+    end
+  end
+
   def post_button_link(caption, path, verb, options={})
     render partial: "webface_components/post_button_link", locals: { caption: caption, path: path, verb: verb, options: options }
   end
