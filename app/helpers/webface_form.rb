@@ -103,7 +103,7 @@ class WebfaceForm
     end
 
     def _submit(attrs)
-      @view_context.component :button, attrs
+      @view_context.component :button, attrs.merge({options: { type: :submit}})
     end
 
     def separate_option_attrs(attrs)

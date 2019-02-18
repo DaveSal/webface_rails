@@ -1,5 +1,7 @@
 - attrs[:data] ||= {}
 - attrs[:data][:confirmation] = attrs[:confirmation]
 - attrs[:data][:disabled]     = options[:disabled]
+
+
 = component_block (attrs[:confirmation] ? "confirmable_button" : "button"), :button, attrs.merge(type: (options[:type] || "submit"), name: options[:name], class: "button #{attrs[:class]}", property_attr: "lockable,disabled,confirmation") do
   = attrs[:value]
