@@ -103,6 +103,8 @@ class WebfaceForm
     end
 
     def _submit(attrs)
+      attrs[:data] ||= {}
+      attrs[:data][:prevent_native_click_event] = "false"
       @view_context.component :button, attrs.merge({options: { type: :submit}})
     end
 
