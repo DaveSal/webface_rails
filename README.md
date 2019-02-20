@@ -7,6 +7,14 @@ add `gem 'webface_rails'` to Gemfile and run `bundle install`
 
 Running generators
 ------------------
+To run the generator:
+
+`rails generate webface` or `rails g webface`
+
+By default it uses `Rails.root` path to install the gem. You can pass `root_path` argument to redefine root path in your project. It might be helpful when installing the gem into Rails Engine, e.g.:
+
+`rails g webface --root_path absolute_path_to_your_project`
+
 The generator will give you necessary files and dir structure inside the `spec/` dir to
 run webface tests. To be more specific, it will do the following
 
