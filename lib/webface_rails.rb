@@ -5,6 +5,7 @@ module WebfaceRails
 
   if defined?(Rails)
     class Engine < Rails::Engine
+      isolate_namespace WebfaceRails
     end
   end
 
